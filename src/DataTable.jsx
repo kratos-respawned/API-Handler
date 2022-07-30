@@ -8,7 +8,7 @@ const DataTable = () => {
   let [data, setData] = useState([]);
   let [name, setName] = useState("");
   let [brand, setBrand] = useState("");
-  let [price, setPrice] = useState(0);
+  let [price, setPrice] = useState();
   useEffect(() => {
     getData();
   }, []);
@@ -17,12 +17,17 @@ const DataTable = () => {
     setData(response.data);
   };
   let removeMember = async (id) => {
-    let response = await axios.delete(`/delete/${id}`);
+    await axios.delete(`/delete/${id}`);
     getData();
-    console.log(response);
   };
-  let createMember = async () => {
-    let response = await axios.post(`/create`, () => {});
+  let createMember = async (e) => {
+    e.preventDefault();
+    await axios.post(`/create`, {
+      name: name,
+      brand: brand,
+      price: price,
+    });
+    getData();
   };
   return (
     <>
@@ -60,17 +65,23 @@ const DataTable = () => {
                 <Col xl>
                   <Form.Group className="mb-2" controlId="formBasicPrice">
                     <Form.Control
+                      type="number"
                       value={price}
                       onChange={(e) => {
                         setPrice(e.target.value);
                       }}
-                      type="text"
                       placeholder="Price"
                     />
                   </Form.Group>
                 </Col>
                 <Col xl style={{ textAlign: "center" }}>
-                  <Button variant="danger" type="submit">
+                  <Button
+                    onClick={(e) => {
+                      createMember(e);
+                    }}
+                    variant="danger"
+                    type="submit"
+                  >
                     Submit
                   </Button>
                 </Col>
@@ -101,7 +112,7 @@ const DataTable = () => {
               <tr style={{ textAlign: "center" }}>
                 <th>{row.name}</th>
                 <th>{row.brand}</th>
-                <th>{row.brand}</th>
+                <th>{row.price}</th>
                 <th>
                   <Button
                     variant="danger"
