@@ -63,6 +63,9 @@ const DataTable = () => {
         <Row className="center">
           <Col xs={6} className="border">
             <Form>
+              <center>
+                <div className="mb-3">Add/Update Data</div>
+              </center>
               <Row className="center">
                 <Col xl>
                   <Form.Group className="mb-2" controlId="formBasicModel">
