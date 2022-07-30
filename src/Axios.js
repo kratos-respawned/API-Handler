@@ -1,6 +1,6 @@
 import axios from "axios";
 
 const Instance = new axios.create({
-  baseURL: "https://basictestapi.up.railway.app/",
+  baseURL: "https://basicapi.up.railway.app",
 });
 export default Instance;
