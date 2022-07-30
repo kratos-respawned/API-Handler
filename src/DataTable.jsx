@@ -18,7 +18,7 @@ const DataTable = () => {
     getData();
   }, []);
   let getData = async () => {
-    submit.current.style.display = "inline-block";
+    submit.current.style.display = "block";
     updater.current.style.display = "none";
     let response = await axios.get("/list");
     setData(response.data);
@@ -41,12 +41,12 @@ const DataTable = () => {
     setName(name);
     setBrand(brand);
     setPrice(price);
-    updater.current.style.display = "inline-block";
+    updater.current.style.display = "block";
     submit.current.style.display = "none";
   };
   let updateMember = async (e) => {
     e.preventDefault();
-    await Instance.put(`/update/${id}`, {
+    let resp = await Instance.put(`/update/${id}`, {
       name: name,
       brand: brand,
       price: price,
@@ -102,23 +102,21 @@ const DataTable = () => {
                     />
                   </Form.Group>
                 </Col>
-                <Col xl style={{ textAlign: "center" }}>
+                <Col xl ref={submit} style={{ textAlign: "center" }}>
                   <Button
                     onClick={(e) => {
                       createMember(e);
                     }}
                     variant="danger"
                     type="submit"
-                    ref={submit}
                   >
                     Create
                   </Button>
                 </Col>
-                <Col xl style={{ textAlign: "center" }}>
+                <Col ref={updater} xl style={{ textAlign: "center" }}>
                   <Button
                     variant="danger"
                     type="submit"
-                    ref={updater}
                     onClick={(e) => {
                       updateMember(e);
                     }}
