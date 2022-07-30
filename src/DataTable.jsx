@@ -1,18 +1,25 @@
 import axios from "./axios.js";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { Container, Ratio, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/esm/Button.js";
 import Form from "react-bootstrap/Form";
+import Instance from "./axios.js";
 const DataTable = () => {
   let [data, setData] = useState([]);
-  let [name, setName] = useState("");
-  let [brand, setBrand] = useState("");
+  let [name, setName] = useState();
+  let [brand, setBrand] = useState();
   let [price, setPrice] = useState();
+  let [id, setID] = useState();
+  let updater = useRef(0);
+  let submit = useRef(0);
+
   useEffect(() => {
     getData();
   }, []);
   let getData = async () => {
+    submit.current.style.display = "inline-block";
+    updater.current.style.display = "none";
     let response = await axios.get("/list");
     setData(response.data);
   };
@@ -27,6 +34,27 @@ const DataTable = () => {
       brand: brand,
       price: price,
     });
+    getData();
+  };
+  let changeInput = (id, name, brand, price) => {
+    setID(id);
+    setName(name);
+    setBrand(brand);
+    setPrice(price);
+    updater.current.style.display = "inline-block";
+    submit.current.style.display = "none";
+  };
+  let updateMember = async (e) => {
+    e.preventDefault();
+    await Instance.put(`/update/${id}`, {
+      name: name,
+      brand: brand,
+      price: price,
+    });
+    setID("");
+    setName("");
+    setBrand("");
+    setPrice("");
     getData();
   };
   return (
@@ -81,8 +109,21 @@ const DataTable = () => {
                     }}
                     variant="danger"
                     type="submit"
+                    ref={submit}
                   >
-                    Submit
+                    Create
+                  </Button>
+                </Col>
+                <Col xl style={{ textAlign: "center" }}>
+                  <Button
+                    variant="danger"
+                    type="submit"
+                    ref={updater}
+                    onClick={(e) => {
+                      updateMember(e);
+                    }}
+                  >
+                    Update
                   </Button>
                 </Col>
               </Row>
@@ -101,15 +142,15 @@ const DataTable = () => {
       >
         <thead>
           <tr style={{ color: "#d40000", textAlign: "center" }}>
-            {["Name", "Brand", "Price", "Delete", "Update"].map((name) => {
-              return <th>{name}</th>;
+            {["Name", "Brand", "Price", "Delete", "Update"].map((name, key) => {
+              return <th key={key}>{name}</th>;
             })}
           </tr>
         </thead>
         <tbody>
           {data.map((row) => {
             return (
-              <tr style={{ textAlign: "center" }}>
+              <tr key={row._id} style={{ textAlign: "center" }}>
                 <th>{row.name}</th>
                 <th>{row.brand}</th>
                 <th>{row.price}</th>
@@ -124,7 +165,14 @@ const DataTable = () => {
                   </Button>
                 </th>
                 <th>
-                  <Button variant="danger">Update</Button>
+                  <Button
+                    onClick={() => {
+                      changeInput(row._id, row.name, row.brand, row.price);
+                    }}
+                    variant="danger"
+                  >
+                    Update
+                  </Button>
                 </th>
               </tr>
             );
