@@ -7,6 +7,8 @@ import Form from "react-bootstrap/Form";
 const DataTable = () => {
   let [data, setData] = useState([]);
   let [name, setName] = useState("");
+  let [brand, setBrand] = useState("");
+  let [price, setPrice] = useState(0);
   useEffect(() => {
     getData();
   }, []);
@@ -24,42 +26,62 @@ const DataTable = () => {
   };
   return (
     <>
-      <Container>
-        <Row className="justify-content-md-center">
-          <Col xs={6}>
+      <Container md="1rem">
+        <Row className="center">
+          <Col xs={6} className="border">
             <Form>
-              <Form.Group className="mb-3" controlId="formBasicName">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
-                  type="text"
-                  placeholder="Name"
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicUID">
-                <Form.Control type="text" placeholder="UID" />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicUID">
-                <Form.Control type="text" placeholder="UID" />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicUID">
-                <Form.Control type="text" placeholder="UID" />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
+              <Row className="center">
+                <Col xl>
+                  <Form.Group className="mb-2" controlId="formBasicModel">
+                    <Form.Control
+                      value={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
+                      type="text"
+                      placeholder="Model"
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xl>
+                  <Form.Group className="mb-2" controlId="formBasicBrand">
+                    <Form.Control
+                      value={brand}
+                      onChange={(e) => {
+                        setBrand(e.target.value);
+                      }}
+                      type="text"
+                      placeholder="Brand"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row className="center">
+                <Col xl>
+                  <Form.Group className="mb-2" controlId="formBasicPrice">
+                    <Form.Control
+                      value={price}
+                      onChange={(e) => {
+                        setPrice(e.target.value);
+                      }}
+                      type="text"
+                      placeholder="Price"
+                    />
+                  </Form.Group>
+                </Col>
+                <Col xl style={{ textAlign: "center" }}>
+                  <Button variant="danger" type="submit">
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
             </Form>
           </Col>
         </Row>
       </Container>
-      <br />
-      <br />
-      <br />
-      <br />
+
       <Table
+        className="border"
         style={{ width: "50vw", margin: "auto" }}
         striped
         //   bordered
@@ -76,11 +98,11 @@ const DataTable = () => {
         <tbody>
           {data.map((row) => {
             return (
-              <tr>
+              <tr style={{ textAlign: "center" }}>
                 <th>{row.name}</th>
                 <th>{row.brand}</th>
                 <th>{row.brand}</th>
-                <th style={{ textAlign: "center" }}>
+                <th>
                   <Button
                     variant="danger"
                     onClick={() => {
@@ -90,7 +112,7 @@ const DataTable = () => {
                     Delete
                   </Button>
                 </th>
-                <th style={{ textAlign: "center" }}>
+                <th>
                   <Button variant="danger">Update</Button>
                 </th>
               </tr>

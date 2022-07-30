@@ -6,3 +6,34 @@
   max-width: 500px;
   margin: 0 auto;
 }
+
+* {
+  background-color: #212529;
+}
+
+.border {
+  padding: 1rem;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+option {
+  background-color: #2c3034;
+  color: #ff7070;
+}
+
+input,
+select,
+input::placeholder {
+  background-color: #2c3034 !important;
+  color: #ff7070 !important;
+}
+
+.container {
+  margin-block: 5rem;
+}
