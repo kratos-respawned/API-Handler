@@ -1,10 +1,10 @@
 import axios from "./axios.js";
 import { useEffect, useRef, useState } from "react";
 import Table from "react-bootstrap/Table";
-import { Container, Ratio, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/esm/Button.js";
 import Form from "react-bootstrap/Form";
-import Instance from "./axios.js";
+import Instance from "./Axios.js";
 const DataTable = () => {
   let [data, setData] = useState([]);
   let [name, setName] = useState();
