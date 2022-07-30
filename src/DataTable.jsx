@@ -19,16 +19,16 @@ const DataTable = () => {
   let getData = async () => {
     submit.current.style.display = "block";
     updater.current.style.display = "none";
-    let response = await axios.get("/list");
+    let response = await Instance.get("/list");
     setData(response.data);
   };
   let removeMember = async (id) => {
-    await axios.delete(`/delete/${id}`);
+    await Instance.delete(`/delete/${id}`);
     getData();
   };
   let createMember = async (e) => {
     e.preventDefault();
-    await axios.post(`/create`, {
+    await Instance.post(`/create`, {
       name: name,
       brand: brand,
       price: price,
