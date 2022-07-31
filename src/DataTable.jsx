@@ -4,6 +4,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/esm/Button.js";
 import Form from "react-bootstrap/Form";
 import Instance from "./Axios";
+import "./index.css";
+import useSpinHook from "./SpinHook";
 const DataTable = () => {
   let [data, setData] = useState([]);
   let [name, setName] = useState();
@@ -12,15 +14,17 @@ const DataTable = () => {
   let [id, setID] = useState();
   let updater = useRef(0);
   let submit = useRef(0);
-
+  const [loader, showLoader, hideLoader] = useSpinHook();
   useEffect(() => {
     getData();
   }, []);
   let getData = async () => {
+    showLoader();
     submit.current.style.display = "block";
     updater.current.style.display = "none";
     let response = await Instance.get("/list");
     setData(response.data);
+    hideLoader();
   };
   let removeMember = async (id) => {
     await Instance.delete(`/delete/${id}`);
@@ -33,6 +37,10 @@ const DataTable = () => {
       brand: brand,
       price: price,
     });
+    setID("");
+    setName("");
+    setBrand("");
+    setPrice("");
     getData();
   };
   let changeInput = (id, name, brand, price) => {
@@ -42,6 +50,7 @@ const DataTable = () => {
     setPrice(price);
     updater.current.style.display = "block";
     submit.current.style.display = "none";
+    window.scrollTo(0, 0);
   };
   let updateMember = async (e) => {
     e.preventDefault();
@@ -58,6 +67,7 @@ const DataTable = () => {
   };
   return (
     <>
+      {loader}
       <Container md="1rem">
         <Row className="center">
           <Col xs={6} className="border">
